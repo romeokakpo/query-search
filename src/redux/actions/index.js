@@ -39,13 +39,10 @@ export const fetchData = () => {
     dispatch(loading());
 
     let term = getState().data.searchword;
-    let attribute = getState().data.filterby;
-    let url;
-    if (attribute === "")
-      url = `https://itunes.apple.com/search?term=${term}&entity=song&limit=200`;
-    else
-      url = `https://itunes.apple.com/search?term=${term}&entity=song&limit=200&attribute=${attribute}`;
-    await fetch(url, { mode: "cors" })
+    await fetch(
+      `https://itunes.apple.com/search?term=${term}&entity=song&limit=200`,
+      { mode: "no-cors" }
+    )
       .then((response) => {
         return response.json();
       })
