@@ -43,7 +43,7 @@ export const fetchData = () => {
     //if (!!attribute) uri += "&attribute=" + attribute;
     await fetch(
       `https://itunes.apple.com/search?term=${term}&entity=song&limit=200&attribute=${attribute}`,
-      { mode: "no-cors" }
+      { mode: "cors" }
     )
       .then((response) => {
         return response.json();
