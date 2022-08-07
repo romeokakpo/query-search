@@ -4,11 +4,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useDispatch, useSelector } from "react-redux";
-import { filter, fetchData } from "../../redux/actions";
+import { filter } from "../../redux/actions";
 
 export default function Filter() {
   const dispatch = useDispatch();
-  const { searchword, loading } = useSelector((state) => state.data);
+  const { loading } = useSelector((state) => state.data);
 
   const [value, setValue] = React.useState("");
 
