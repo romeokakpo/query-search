@@ -12,6 +12,7 @@ import { showing } from "../../redux/actions";
 
 export default function ResultTable() {
   const dispatch = useDispatch();
+  const [once, setOnce] = React.useState(0);
   const { result, show, searchword, loading, error } = useSelector(
     (state) => state.data
   );
@@ -27,12 +28,11 @@ export default function ResultTable() {
   if (result.results) results = result.results;
 
   //Scroll event
-  if (show === 1) {
+  if (show === 1 && once === 0) {
+    console.log("stat" + once);
     window.addEventListener("scroll", addShowing);
-  } else if (show === 20) {
-    window.removeEventListener("scroll", addShowing);
+    setOnce(1);
   }
-
   return (
     <TableContainer component={Paper} style={{ marginBottom: "30px" }}>
       <Table stickyHeader sx={{ minWidth: 350 }} aria-label="simple table">
@@ -100,13 +100,14 @@ export default function ResultTable() {
               </TableRow>
             )
           }
-          {show === 20 && (
-            <TableRow>
-              <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
-                You have seen all result...
-              </TableCell>
-            </TableRow>
-          )}
+          {results?.length != 0 &&
+            (show === 20 || show * 10 >= results?.length) && (
+              <TableRow>
+                <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
+                  You have seen all result...
+                </TableCell>
+              </TableRow>
+            )}
         </TableBody>
       </Table>
     </TableContainer>
