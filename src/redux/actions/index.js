@@ -46,7 +46,9 @@ export const fetchData = () => {
       .then((response) => {
         return response.json();
       })
-      .then((res) => dispatch(addData(res)))
+      .then((res) => {
+        dispatch(addData(res));
+      })
       .catch((err) => {
         console.log(err);
         dispatch(error());

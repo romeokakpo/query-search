@@ -84,7 +84,8 @@ export default function ResultTable() {
                 align="center"
                 colSpan={4}
               >
-                Internal Error, please retry...
+                Error :(, Make sure you've turned off security mode on your
+                browser or check your network
               </TableCell>
             </TableRow>
           )}
@@ -99,18 +100,14 @@ export default function ResultTable() {
 
           {
             //When no result
-            result.resultCount === 0 ||
-              (results?.filter(applyFilter).length === 0 && (
-                <TableRow colSpan={4}>
-                  <TableCell
-                    style={{ color: "gray" }}
-                    align="center"
-                    colSpan={4}
-                  >
-                    No Result for your query...
-                  </TableCell>
-                </TableRow>
-              ))
+            (result.resultCount === 0 ||
+              results?.filter(applyFilter).length === 0) && (
+              <TableRow colSpan={4}>
+                <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
+                  No Result for your query...
+                </TableCell>
+              </TableRow>
+            )
           }
 
           {
