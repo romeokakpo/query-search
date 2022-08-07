@@ -42,7 +42,8 @@ export const fetchData = () => {
     let attribute = getState().data.filterby;
     //if (!!attribute) uri += "&attribute=" + attribute;
     await fetch(
-      `https://itunes.apple.com/search?term=${term}&entity=song&limit=200&attribute=${attribute}`
+      `https://itunes.apple.com/search?term=${term}&entity=song&limit=200&attribute=${attribute}`,
+      { mode: "no-cors" }
     )
       .then((response) => {
         return response.json();

@@ -100,7 +100,7 @@ export default function ResultTable() {
               </TableRow>
             )
           }
-          {results?.length != 0 &&
+          {results?.length !== 0 &&
             (show === 20 || show * 10 >= results?.length) && (
               <TableRow>
                 <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
