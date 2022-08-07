@@ -16,7 +16,10 @@ export default function ResultTable() {
     (state) => state.data
   );
   const addShowing = () => {
-    if (document.body.scrollHeight - window.scrollY === window.innerHeight) {
+    if (
+      document.body.scrollHeight - window.scrollY <=
+      window.innerHeight + 10
+    ) {
       dispatch(showing());
     }
   };
@@ -32,7 +35,7 @@ export default function ResultTable() {
 
   return (
     <TableContainer component={Paper} style={{ marginBottom: "30px" }}>
-      <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table stickyHeader sx={{ minWidth: 350 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">
