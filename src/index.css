@@ -12,3 +12,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.scrollTop{
+  position: fixed;
+  bottom: 8%;
+  right: 2%;
+  z-index: 10;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}

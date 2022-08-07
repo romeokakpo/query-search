@@ -5,12 +5,40 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+
+function Scroller() {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else setIsVisible(false);
+    });
+  }, []);
+
+  const scrollToTop = () => window.scroll(0, 0);
+
+  return (
+    isVisible && (
+      <div className="scrollTop" title="Jump to top" onClick={scrollToTop}>
+        <ArrowUpwardIcon
+          sx={{ fontSize: 40 }}
+          color="success"
+          style={{ borderRadius: "15px", background: "white" }}
+        />
+      </div>
+    )
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
+      <Scroller />
     </Provider>
   </React.StrictMode>
 );
