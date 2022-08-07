@@ -5,6 +5,7 @@ import {
   SET_FILTER,
   RESULT_SHOW,
   SET_SEARCHWORD,
+  SHOW_LOADING,
 } from "../types";
 
 const loading = () => ({
@@ -32,6 +33,10 @@ const error = () => ({
 
 export const showing = () => ({
   type: RESULT_SHOW,
+});
+
+export const show_loaded = () => ({
+  type: SHOW_LOADING,
 });
 
 export const fetchData = () => {

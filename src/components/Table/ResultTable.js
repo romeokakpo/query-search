@@ -8,31 +8,29 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import RowTable from "./RowTable";
 import { useDispatch, useSelector } from "react-redux";
-import { showing } from "../../redux/actions";
+import { showing, show_loaded } from "../../redux/actions";
 import { stringInclude } from "../../helpers/stringInclude";
 
 export default function ResultTable() {
   const dispatch = useDispatch();
-  const [once, setOnce] = React.useState(0);
-  const { result, show, searchword, loading, error, filterby } = useSelector(
-    (state) => state.data
-  );
-  const addShowing = () => {
-    if (
-      document.body.scrollHeight - window.scrollY <=
-      window.innerHeight + 10
-    ) {
-      dispatch(showing());
-    }
-  };
+  const { result, show, searchword, loading, show_load, error, filterby } =
+    useSelector((state) => state.data);
+
   let results;
   if (result.results) results = result.results;
-
+  console.log(show);
   //Scroll event
-  if (show === 1 && once === 0) {
-    window.addEventListener("scroll", addShowing);
-    setOnce(1);
-  }
+  window.onscroll = () => {
+    if (
+      !((show + 1) * 10 >= results?.filter(applyFilter).length) &&
+      document.body.scrollHeight - window.scrollY <= window.innerHeight + 5
+    ) {
+      dispatch(show_loaded());
+      setTimeout(() => {
+        dispatch(showing());
+      }, 300);
+    }
+  };
 
   //Filter results
   const applyFilter = (line) => {
@@ -51,8 +49,12 @@ export default function ResultTable() {
   };
 
   return (
-    <TableContainer component={Paper} style={{ marginBottom: "30px" }}>
-      <Table stickyHeader sx={{ minWidth: 350 }} aria-label="simple table">
+    <TableContainer
+      component={Paper}
+      style={{ marginBottom: "30px" }}
+      id="scrollToHere"
+    >
+      <Table sx={{ minWidth: 350 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">
@@ -70,7 +72,7 @@ export default function ResultTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {loading && (
+          {(show_load || loading) && (
             <TableRow colSpan={4}>
               <TableCell align="center" colSpan={4}>
                 Loading...
@@ -84,17 +86,18 @@ export default function ResultTable() {
                 align="center"
                 colSpan={4}
               >
-                Error :(, Make sure you've turned off security mode on your
+                Error :( Make sure you've turned off security mode on your
                 browser or check your network
               </TableCell>
             </TableRow>
           )}
           {
             //When match result
-            result.results &&
+            !show_load &&
+              result.results &&
               results
                 .filter(applyFilter)
-                .slice(0, show * 10)
+                .slice(show * 10, show * 10 + 10)
                 .map((row, index) => <RowTable row={row} key={index} />)
           }
 
@@ -121,8 +124,8 @@ export default function ResultTable() {
             )
           }
           {results?.length !== 0 &&
-            (show === 20 ||
-              show * 10 >= results?.filter(applyFilter).length) && (
+            (show === 19 ||
+              (show + 1) * 10 >= results?.filter(applyFilter).length) && (
               <TableRow>
                 <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
                   You have seen all result...
