@@ -9,11 +9,12 @@ import Paper from "@mui/material/Paper";
 import RowTable from "./RowTable";
 import { useDispatch, useSelector } from "react-redux";
 import { showing } from "../../redux/actions";
+import { stringInclude } from "../../helpers/stringInclude";
 
 export default function ResultTable() {
   const dispatch = useDispatch();
   const [once, setOnce] = React.useState(0);
-  const { result, show, searchword, loading, error } = useSelector(
+  const { result, show, searchword, loading, error, filterby } = useSelector(
     (state) => state.data
   );
   const addShowing = () => {
@@ -29,10 +30,26 @@ export default function ResultTable() {
 
   //Scroll event
   if (show === 1 && once === 0) {
-    console.log("stat" + once);
     window.addEventListener("scroll", addShowing);
     setOnce(1);
   }
+
+  //Filter results
+  const applyFilter = (line) => {
+    switch (filterby) {
+      case "":
+        return true;
+      case "artistTerm":
+        return stringInclude(line.artistName, searchword);
+      case "albumTerm":
+        return stringInclude(line.collectionName, searchword);
+      case "songTerm":
+        return stringInclude(line.trackName, searchword);
+      default:
+        return false;
+    }
+  };
+
   return (
     <TableContainer component={Paper} style={{ marginBottom: "30px" }}>
       <Table stickyHeader sx={{ minWidth: 350 }} aria-label="simple table">
@@ -75,19 +92,25 @@ export default function ResultTable() {
             //When match result
             result.results &&
               results
+                .filter(applyFilter)
                 .slice(0, show * 10)
                 .map((row, index) => <RowTable row={row} key={index} />)
           }
 
           {
             //When no result
-            result.resultCount === 0 && (
-              <TableRow colSpan={4}>
-                <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
-                  No Result for your query...
-                </TableCell>
-              </TableRow>
-            )
+            result.resultCount === 0 ||
+              (results?.filter(applyFilter).length === 0 && (
+                <TableRow colSpan={4}>
+                  <TableCell
+                    style={{ color: "gray" }}
+                    align="center"
+                    colSpan={4}
+                  >
+                    No Result for your query...
+                  </TableCell>
+                </TableRow>
+              ))
           }
 
           {
@@ -101,7 +124,8 @@ export default function ResultTable() {
             )
           }
           {results?.length !== 0 &&
-            (show === 20 || show * 10 >= results?.length) && (
+            (show === 20 ||
+              show * 10 >= results?.filter(applyFilter).length) && (
               <TableRow>
                 <TableCell style={{ color: "gray" }} align="center" colSpan={4}>
                   You have seen all result...

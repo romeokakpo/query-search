@@ -24,7 +24,7 @@ const queryReducers = (state = initalState, action) => {
     case SET_SEARCHWORD:
       return { ...state, searchword: action.payload, error: "" };
     case SET_FILTER:
-      return { ...state, filterby: action.payload, error: "" };
+      return { ...state, filterby: action.payload, error: "", show: 1 };
     case SET_RESULT:
       return { ...state, loading: false, result: action.payload, show: 1 };
     case RESULT_ERROR:

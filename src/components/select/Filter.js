@@ -15,7 +15,6 @@ export default function Filter() {
   const handleChange = (event) => {
     setValue(event.target.value);
     dispatch(filter(event.target.value));
-    if (searchword) dispatch(fetchData());
   };
 
   return (
