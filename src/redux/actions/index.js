@@ -55,7 +55,6 @@ export const fetchData = () => {
         dispatch(addData(res));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(error());
       });
   };

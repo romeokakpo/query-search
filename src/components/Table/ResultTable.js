@@ -18,7 +18,6 @@ export default function ResultTable() {
 
   let results;
   if (result.results) results = result.results;
-  console.log(show);
   //Scroll event
   window.onscroll = () => {
     if (
