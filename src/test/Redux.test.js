@@ -9,7 +9,8 @@ test("reducers look like initial state", () => {
       searchword: "",
       filterby: "",
       result: {},
-      show: 1,
+      show: 0,
+      show_load: false,
       error: "",
     },
   });
@@ -24,8 +25,9 @@ test("reducers state when loading", () => {
         searchword: "Romeo",
         filterby: "",
         result: {},
-        show: 1,
+        show: 0,
         error: "",
+        show_load: false,
       },
     },
     { type: "LOADING" }
@@ -36,7 +38,8 @@ test("reducers state when loading", () => {
       searchword: "Romeo",
       filterby: "",
       result: {},
-      show: 1,
+      show: 0,
+      show_load: false,
       error: "",
     },
   });
@@ -51,7 +54,7 @@ test("reducers state after set Seach word", () => {
         searchword: "",
         filterby: "",
         result: {},
-        show: 1,
+        show: 0,
         error: "",
       },
     },
@@ -63,7 +66,7 @@ test("reducers state after set Seach word", () => {
       searchword: "Romeo",
       filterby: "",
       result: {},
-      show: 1,
+      show: 0,
       error: "",
     },
   });
@@ -81,7 +84,7 @@ test("reducers after filter", () => {
           resultCount: 0,
           results: [],
         },
-        show: 1,
+        show: 0,
         error: "",
       },
     },
@@ -96,7 +99,7 @@ test("reducers after filter", () => {
         resultCount: 0,
         results: [],
       },
-      show: 1,
+      show: 0,
       error: "",
     },
   });
@@ -111,7 +114,7 @@ test("reducers state after fetch", () => {
         searchword: "Romeo",
         filterby: "",
         result: {},
-        show: 1,
+        show: 0,
         error: "",
       },
     },
@@ -214,7 +217,7 @@ test("reducers state after fetch", () => {
           },
         ],
       },
-      show: 1,
+      show: 0,
       error: "",
     },
   });
@@ -232,7 +235,7 @@ test("reducers after increment show 1/2", () => {
           resultCount: 0,
           results: [],
         },
-        show: 1,
+        show: 0,
         error: "",
       },
     },
@@ -247,8 +250,9 @@ test("reducers after increment show 1/2", () => {
         resultCount: 0,
         results: [],
       },
-      show: 2,
+      show: 0.5,
       error: "",
+      show_load: false,
     },
   });
 });
@@ -264,7 +268,7 @@ test("reducers after increment show 2/2", () => {
           resultCount: 0,
           results: [],
         },
-        show: 20,
+        show: 19,
         error: "",
       },
     },
@@ -279,8 +283,9 @@ test("reducers after increment show 2/2", () => {
         resultCount: 0,
         results: [],
       },
-      show: 20,
+      show: 19,
       error: "",
+      show_load: false,
     },
   });
 });
@@ -294,7 +299,7 @@ test("reducers state when error", () => {
         searchword: "love",
         filterby: "artistTerm",
         result: {},
-        show: 1,
+        show: 0,
         error: "",
       },
     },
@@ -306,8 +311,37 @@ test("reducers state when error", () => {
       searchword: "love",
       filterby: "artistTerm",
       result: {},
-      show: 1,
+      show: 0,
       error: "true",
+    },
+  });
+});
+
+test("reducers when show_loading action", () => {
+  let state;
+  state = reducers(
+    {
+      data: {
+        loading: false,
+        searchword: "love",
+        filterby: "artistTerm",
+        result: {},
+        show: 0,
+        error: "",
+        show_load: false,
+      },
+    },
+    { type: "SHOW_LOADING" }
+  );
+  expect(state).toEqual({
+    data: {
+      loading: false,
+      searchword: "love",
+      filterby: "artistTerm",
+      result: {},
+      show: 0,
+      error: "",
+      show_load: true,
     },
   });
 });

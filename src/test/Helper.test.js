@@ -1,6 +1,6 @@
 import { stringInclude } from "../helpers/stringInclude";
 
-test("test string includes", () => {
+test("test stringIncludes", () => {
   let answers;
   answers = stringInclude("Me im always late", "Im late");
   expect(answers).toEqual(false);
