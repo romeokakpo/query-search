@@ -45,8 +45,7 @@ export const fetchData = () => {
 
     let term = getState().data.searchword;
     await fetch(
-      `https://itunes.apple.com/search?term=${term}&entity=song&limit=200`,
-      { mode: "no-cors" }
+      `https://itunes.apple.com/search?term=${term}&entity=song&limit=200`
     )
       .then((response) => {
         return response.json();
